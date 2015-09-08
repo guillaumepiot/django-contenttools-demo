@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>ContentTools sandbox</title>
+        <link rel="stylesheet" type="text/css" href="/static/sandbox/sandbox.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/content-tools.min.css">
+    </head>
+    <body>
+        <article class="article">
+            <section class="[ article__content ]  [ editable ]"  data-name="article">
+                {{ article | safe }}
+            </section>
+            <aside class="article__related">
+                <div class="[ article__author ]  [ author ]  [ editable ]" data-name="author">
+                    {{ author | safe }}
+                <div class="[ article__learn-more ]  [ learn-more ]  [ editable ]" data-name="learn-more">
+                    {{ learn | safe }}
+                </div>
+            </aside>
+        </article>
+        <script type="text/javascript" src="/static/js/api.js"></script>
+        <script type="text/javascript" src="/static/js/content-tools.js"></script>
+        <script type="text/javascript" src="/static/js/image-uploader.js"></script>
+        <script type="text/javascript" src="/static/js/editor.js"></script>
+    </body>
+</html>
