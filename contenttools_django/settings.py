@@ -95,7 +95,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, '../static/'),
 )
 
-MEDIA_ROOT = os.path.join(PROJECT_DIR, '../../media/')
+MEDIA_ROOT = os.path.join(PROJECT_DIR, '../media/')
 
 MEDIA_URL = '/media/'
 
@@ -119,6 +119,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
     ),
-}
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+    }
 
 UPLOADED_FILES_USE_URL = True

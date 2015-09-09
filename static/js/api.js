@@ -49,7 +49,7 @@ API.call = function(type, url, data, auth, onSuccess, onError) {
   }
 
   xhr.setRequestHeader("X-CSRFToken", csrftoken);
-  xhr.setRequestHeader('Content-Type', 'application/json');
+  // xhr.setRequestHeader('Content-Type', 'application/json');
   
   if (data) {
     xhr.send(data);

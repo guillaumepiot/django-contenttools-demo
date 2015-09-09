@@ -28,14 +28,35 @@ var csrftoken = getCookie('csrftoken');
 		editor = ContentTools.EditorApp.get();
 		editor.init('.editable', 'data-name');
 
+		function getImages() {
+		    // Return an object containing image URLs and widths for all regions
+		    var descendants, i, images;
+
+		    images = {};
+		    for (name in editor.regions) {
+		        // Search each region for images
+		        descendants = editor.regions[name].descendants();
+		        for (i = 0; i < descendants.length; i++) {
+		            // Filter out elements that are not images
+		            if (descendants[i].constructor.name !== 'Image') {
+		                continue;
+		            }
+		            images[descendants[i].attr('src')] = descendants[i].size()[0];
+		        }
+		    }
+
+		    return images;
+		}
+
 		editor.bind('save', function (regions) {
-		    var name, onStateChange, payload, xhr;
-		    var data = JSON.stringify(regions)
+		    var onStateChange, payload, xhr;
+		    // Collect the contents of each region into a FormData instance
+		    payload = new FormData();
+		    payload.append('page', window.location.pathname);
+		    payload.append('images', JSON.stringify(getImages()));
+		    payload.append('regions', JSON.stringify(regions));
 
-		    // Set the editor as busy while we save our changes
-		    this.busy(true);
-
-		    // Send the update content to the server to be saved
+		    // Send the updated content to the server to be saved
 		    onStateChange = function(ev) {
 		        // Check if the request is finished
 		        if (ev.target.readyState == 4) {
@@ -49,11 +70,8 @@ var csrftoken = getCookie('csrftoken');
 		            }
 		        }
 		    };
-
-		    console.log(typeof(data))
-
-			API.call('post', '/api/add/', data, true, onStateChange)
-
+			API.call('post', '/api/add/', payload, true, onStateChange)
 		});
+
 	}
 }).call(this);

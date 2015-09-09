@@ -1,3 +1,13 @@
+function getImageSize(response) {
+    console.log(response.size)
+    coef = response.edited_width / response.size[0]
+    for(var i=0; i<response.size.length; i++) {
+        response.size[i] *= coef;
+    }
+    console.log(response.size)
+    return response.size
+}
+
 ImageUploader = function(dialog) {
      var image, xhr, xhrComplete, xhrProgress;
 
@@ -23,7 +33,6 @@ ImageUploader = function(dialog) {
     });
 
     dialog.bind('imageUploader.fileReady', function (file) {
-    	console.log(file)
         // Upload a file to the server
         var formData;
 
@@ -45,18 +54,20 @@ ImageUploader = function(dialog) {
             xhrComplete = null
 
             // Handle the result of the upload
-            if (parseInt(ev.target.status) == 200) {
+            if (parseInt(ev.target.status) == 201) {
                 // Unpack the response (from JSON)
                 var response = JSON.parse(ev.target.responseText);
-
                 // Store the image details
                 image = {
-                    size: reponse.size,
-                    url: response.url
+                    id: response.id,
+                    name: response.name,
+                    size: getImageSize(response),
+                    width: response.edited_width,
+                    url: response.image
                     };
-
+                console.log(image.size)
                 // Populate the dialog
-                dialog.populate(image.url, image.size);
+                dialog.populate(image.url, image.size[0]);
 
             } else {
                 // The request failed, notify the user
@@ -71,14 +82,15 @@ ImageUploader = function(dialog) {
         // Build the form data to post to the server
         formData = new FormData()
         formData.append('image', file)
-
+        // Set the width of the image when it's inserted, this is a default
+        // the user will be able to resize the image afterwards.
+        formData.append('width', 600);
         // Make the request
         xhr = new XMLHttpRequest();
         xhr.upload.addEventListener('progress', xhrProgress);
         xhr.upload.addEventListener('readystatechange', xhrComplete);
-        xhr.open('POST', '/api/images/add/', true);
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        xhr.send(formData);
+        API.call('post', '/api/images/add/', formData, true, xhrComplete)
+
     });
 
 	dialog.bind('imageUploader.save', function () {
@@ -106,10 +118,10 @@ ImageUploader = function(dialog) {
                 // Trigger the save event against the dialog with details of the
                 // image to be inserted.
                 dialog.save(
-                    response.url,
-                    response.size,
+                    response.image,
+                    getImageSize(response),
                     {
-                        'alt': response.alt,
+                        'alt': response.name,
                         'data-ce-max-width': image.size[0]
                     });
 
@@ -124,11 +136,6 @@ ImageUploader = function(dialog) {
 
         // Build the form data to post to the server
         formData = new FormData();
-        formData.append('url', image.url);
-
-        // Set the width of the image when it's inserted, this is a default
-        // the user will be able to resize the image afterwards.
-        formData.append('width', 600);
 
         // Check if a crop region has been defined by the user
         if (dialog.cropRegion()) {
@@ -138,9 +145,8 @@ ImageUploader = function(dialog) {
         // Make the request
         xhr = new XMLHttpRequest();
         xhr.upload.addEventListener('readystatechange', xhrComplete);
-        xhr.open('POST', '/api/images/add/', true);
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        xhr.send(formData);
+        API.call('put', '/api/images/update/' + image.id, formData, true, xhrComplete)
+
     });
 
 	function rotateImage(direction) {
@@ -167,13 +173,13 @@ ImageUploader = function(dialog) {
                 var response = JSON.parse(ev.target.responseText);
 
                 // Store the image details
-                image = {
-                    size: reponse.size,
-                    url: response.url
-                    };
+                image.size = getImageSize(response),
+                image.url = response.image
 
                 // Populate the dialog
-                dialog.populate(image.url, image.size);
+                dialog.populate(image.url, image.size[0]);
+
+              
 
             } else {
                 // The request failed, notify the user
@@ -186,14 +192,12 @@ ImageUploader = function(dialog) {
 
         // Build the form data to post to the server
         formData = new FormData();
-        formData.append('url', image.url);
         formData.append('direction', direction);
 
         // Make the request
         xhr = new XMLHttpRequest();
         xhr.upload.addEventListener('readystatechange', xhrComplete);
-        xhr.open('POST', '/rotate-image', true);
-        xhr.send(formData);
+        API.call('put', '/api/images/update/' + image.id, formData, true, xhrComplete)
     }
 
     dialog.bind('imageUploader.rotateCCW', function () {

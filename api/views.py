@@ -1,8 +1,8 @@
 import json
 
-from rest_framework import generics
-from rest_framework import permissions
+from rest_framework import generics, permissions, filters
 
+from rest_framework.parsers import FormParser, MultiPartParser
 from api.serializers import ContentHTMLSerializer
 from api.models import ContentHTML, Images
 
@@ -23,10 +23,21 @@ class ContentHTMLMixin(object):
         return [permissions.IsAuthenticated()]
 
 class ContentHTMLAdd(ContentHTMLMixin, generics.CreateAPIView):
+    parser_classes = (MultiPartParser, FormParser,)
+
     def perform_create(self, serializer):
         print self.request.user
-        data = json.dumps(self.request.data)
-        obj = serializer.save(json = data)
+        regions = self.request.data.get('regions')
+        images = self.request.data.get('images')
+        page = self.request.data.get('page')
+
+        regions = json.dumps(regions)
+
+        obj = serializer.save(
+            regions = regions,
+            images = images,
+            page = page,
+            )
 
 
 class ContentHTMLRetrieve(ContentHTMLMixin, generics.RetrieveAPIView):
@@ -42,7 +53,9 @@ class ContentHTMLUpdate(ContentHTMLMixin, generics.UpdateAPIView):
 
 
 class ContentHTMLList(ContentHTMLMixin, generics.ListAPIView):
-    pass
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('created')
+    ordering = ('-created',)
 
 
 class ContentHTMLDelete(ContentHTMLMixin, generics.DestroyAPIView):
