@@ -19,7 +19,7 @@ The application is divided in two main folders:
 * api - We are using Django REST Framework to serve and store the content
 
 The original project is written completely in javascript with no dependencies. We just place it into our static files. 
-We copy content-tools.js and create editor.js and image-uploader.js following [ContentTools](http://getcontenttools.com/) and add few tweaks to handle the necessary ajax requests to communicate with the backend.
+We copy content-tools.js and create editor.js and image-uploader.js following [ContentTools](http://getcontenttools.com/) and add few tweaks to handle the necessary ajax requests to communicate with the backend. For demo purposes, we are using the styles from sandbox.css, so we will add this file into the css folder
 
 As we are handling ajax requests, Django asks to add the following piece of code for [Cross Site Request Forgery protection](https://docs.djangoproject.com/en/1.8/ref/csrf/).
 This is how our api.js file looks like
