@@ -28,6 +28,22 @@ class Images(models.Model):
     def size(self):
         return [self.image.width, self.image.height]
 
+    # def rotate(self):
+
+    #         if not self.id and not self.image:
+    #             return            
+
+    #         super(Images, self).save()
+
+    #         path_image = cStringIO.StringIO(urllib.urlopen(self.image).read())
+    #         print path_image
+    #         im.rotate(90)
+
+
+    #         image = Image.open(path_image)
+
+    #         image.resize(size, Image.ANTIALIAS)
+    #         image.save(self.photo.path)
 class FileUpload(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, null=True)

@@ -67,7 +67,7 @@ ImageUploader = function(dialog) {
                     };
                 console.log(image.size)
                 // Populate the dialog
-                dialog.populate(image.url, image.size[0]);
+                dialog.populate(image.url, image.size);
 
             } else {
                 // The request failed, notify the user

@@ -32,21 +32,22 @@ class ImagesSerializer(serializers.ModelSerializer):
     #     write_only = True,
     #     required = False
     #     )
-    edited_crop = serializers.ListField(
-        write_only = True,
-        child=serializers.IntegerField(),
-        required = False
-        )
-    edited_direction = serializers.CharField(
-        write_only = True,
-        required = False
+    # edited_crop = serializers.ListField(
+    #     write_only = True,
+    #     child=serializers.IntegerField(),
+    #     required = False
+    #     )
+    # edited_direction = serializers.CharField(
+    #     write_only = True,
+    #     required = False
 
-        )
+    #     )
 
 
     class Meta:
         model = Images
         fields = ('id',
+                  'created',
                   'image',
                   'name',
                   'size',

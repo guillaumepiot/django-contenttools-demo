@@ -70,6 +70,7 @@ var csrftoken = getCookie('csrftoken');
 		            }
 		        }
 		    };
+
 			API.call('post', '/api/add/', payload, true, onStateChange)
 		});
 

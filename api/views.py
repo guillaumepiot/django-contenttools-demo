@@ -12,7 +12,6 @@ from api.models import ContentHTML, Images
 #
 
 class ContentHTMLMixin(object):
-
     def get_queryset(self):
         return ContentHTML.objects.filter()
 
@@ -26,7 +25,6 @@ class ContentHTMLAdd(ContentHTMLMixin, generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser,)
 
     def perform_create(self, serializer):
-        print self.request.user
         regions = self.request.data.get('regions')
         images = self.request.data.get('images')
         page = self.request.data.get('page')

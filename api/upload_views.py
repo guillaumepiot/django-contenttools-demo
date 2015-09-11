@@ -1,4 +1,4 @@
-import json
+import json, urllib, cStringIO, re, os
 
 from rest_framework import generics, permissions, filters
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -6,6 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from api.serializers import ImagesSerializer, FileUploadSerializer
 from api.models import Images, FileUpload
+from django.conf import settings
+from PIL import Image
 
 #
 # Mixin for all company views.
@@ -25,7 +27,6 @@ class ImagesMixin(object):
 
 class ImagesAdd(ImagesMixin, generics.CreateAPIView):
 	def perform_create(self, serializer):
-		print self.request.data['image'].size
 		obj = serializer.save(
 			image = self.request.data['image'], 
 			name = self.request.data['image'].name,
@@ -42,9 +43,23 @@ class ImagesUpdate(ImagesMixin, generics.UpdateAPIView):
 		return self.update(request, *args, **kwargs)
 
 	def perform_update(self, serializer):
+		print self.request.data
 		if self.request.data.get('crop'):
-			serializer.save(edited_crop = self.request.data['crop'])
+			serializer.save(
+				edited_crop = self.request.data['crop'],
+				)
 		if self.request.data.get('direction'):
+			angle = 270 if self.request.data['direction'] == "CW" else 90
+			url_image = serializer.data.get('image')
+			path_image = cStringIO.StringIO(urllib.urlopen(url_image).read())
+
+			im = Image.open(path_image)
+
+			im = im.rotate(angle)
+			path = re.match('^(.*)/([^/]*)$', url_image)
+
+			im.save( settings.MEDIA_ROOT + 'images/' + path.group(2))
+
 			serializer.save(edited_direction = self.request.data['direction'])
 
 
