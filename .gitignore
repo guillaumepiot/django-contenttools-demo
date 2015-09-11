@@ -1,3 +1,5 @@
 media/files/*
 media/images/*
 *.pyc
+docs/*
+tmp/*

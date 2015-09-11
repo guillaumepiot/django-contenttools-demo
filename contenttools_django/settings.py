@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
     'api',
     'home'
 )
@@ -123,3 +124,28 @@ REST_FRAMEWORK = {
     }
 
 UPLOADED_FILES_USE_URL = True
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': os.path.join(PROJECT_DIR, '../tmp/django_cache'),
+#         'TIMEOUT': 1,
+#     }
+# }
+
+# MIDDLEWARE_CLASSES = (
+#     'django.middleware.cache.UpdateCacheMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.cache.FetchFromCacheMiddleware',
+# )
+
+
+SWAGGER_SETTINGS = {
+    'is_authenticated': False,
+    'is_superuser': False,
+    # 'info': {
+    #     'contact': 'support@cyanapp.com',
+    #     'description': 'Cyan API Service',
+    #     'title': 'Cyan',
+    # },
+}
