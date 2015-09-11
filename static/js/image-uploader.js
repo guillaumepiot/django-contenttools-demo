@@ -1,10 +1,8 @@
 function getImageSize(response) {
-    console.log(response.size)
     coef = response.edited_width / response.size[0]
     for(var i=0; i<response.size.length; i++) {
         response.size[i] *= coef;
     }
-    console.log(response.size)
     return response.size
 }
 
