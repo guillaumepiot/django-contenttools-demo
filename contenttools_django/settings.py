@@ -108,44 +108,24 @@ TEMPLATE_DIRS = (
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
-    ),
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+    )
     }
 
 UPLOADED_FILES_USE_URL = True
-
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': os.path.join(PROJECT_DIR, '../tmp/django_cache'),
-#         'TIMEOUT': 1,
-#     }
-# }
-
-# MIDDLEWARE_CLASSES = (
-#     'django.middleware.cache.UpdateCacheMiddleware',
-#     'django.middleware.common.CommonMiddleware',
-#     'django.middleware.cache.FetchFromCacheMiddleware',
-# )
 
 
 SWAGGER_SETTINGS = {
     'is_authenticated': False,
     'is_superuser': False,
-    # 'info': {
-    #     'contact': 'support@cyanapp.com',
-    #     'description': 'Cyan API Service',
-    #     'title': 'Cyan',
-    # },
 }

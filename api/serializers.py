@@ -1,4 +1,4 @@
-import json
+import json, time
 from rest_framework import serializers
 from api.models import ContentHTML, Images, FileUpload
 
@@ -28,22 +28,6 @@ class ImagesSerializer(serializers.ModelSerializer):
         child=serializers.IntegerField()
     )
 
-    # edited_width = serializers.IntegerField(
-    #     write_only = True,
-    #     required = False
-    #     )
-    # edited_crop = serializers.ListField(
-    #     write_only = True,
-    #     child=serializers.IntegerField(),
-    #     required = False
-    #     )
-    # edited_direction = serializers.CharField(
-    #     write_only = True,
-    #     required = False
-
-    #     )
-
-
     class Meta:
         model = Images
         fields = ('id',
@@ -60,19 +44,10 @@ class ImagesSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super(ImagesSerializer, self).to_representation(instance)
-        # ret['size'] = ret['size']
+        if ret['image']:
+            
+            # Modify the image URL by adding an _ignore param
+            # This will force the browser to reload the image
+
+            ret['image'] = "%s?_ignore=%s" % (ret['image'], time.time())
         return ret
-
-
-class FileUploadSerializer(serializers.ModelSerializer):
-    # owner = serializers.SlugRelatedField(
-    #     read_only=True,
-    #     slug_field='id'
-    # )
-
-    class Meta:
-        model = FileUpload
-        fields = ('created', 'datafile', 'owner')
-
-
-

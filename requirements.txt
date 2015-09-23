@@ -6,5 +6,4 @@ Pillow==2.9.0
 mkdocs==0.14.0
 pytz==2015.4
 PyYAML==3.11
-wsgiref==0.1.2
 

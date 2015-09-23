@@ -2,26 +2,55 @@
 
 This is a basic integration of the [ContentTools](http://getcontenttools.com/) content editor into a Django application using Django REST Framework. It would be interesting to have a look at the original project before diving into this tutorial. You will have a better understanding of what we are doing here.
 
+**Please note that this is a Python 3 project.**
+
 ## Installation
 
 First of all, you will need to download the code from Github [Django ContentTools](https://github.com/Cotidia/django-contenttools-demo).
 
-```
-git clone https://github.com/Cotidia/django-contenttools-demo.git
-cd contenttools_django
-pip install -r requirements.txt
-```
+Create a virtual environment:
+
+    $ pyvenv venv
+    $ source venv/bin/activate
+
+Then, install the project:
+
+    git clone https://github.com/Cotidia/django-contenttools-demo.git
+    cd contenttools_django
+    pip install -r requirements.txt
+
+Setup the project database:
+
+    $ python manage.py migrate
+
+Add a superuser:
+
+    $ python manage.py createsuperuser
+
+Then, launch the site and login:
+
+    $ python manage.py runserver
+
+Login here: [http://localhost:8000/admin](http://localhost:8000/admin)
+
+## Testing
+
+A full suite of API test have been written and can be executed as follows:
+
+    $ python manage.py test api.tests
 
 ## Getting started
 
 The application is divided in two main folders:
-* home - Where we are displaying the HTML of the app
-* api - We are using Django REST Framework to serve and store the content
+
+- home - Where we are displaying the HTML of the app
+- api - We are using Django REST Framework to serve and store the content
 
 The original project is written completely in javascript with no dependencies. We just place it into our static files. 
-We copy content-tools.js and create editor.js and image-uploader.js following [ContentTools](http://getcontenttools.com/) and add few tweaks to handle the necessary ajax requests to communicate with the backend. For demo purposes, we are using the styles from sandbox.css, so we will add this file into the css folder
+We copy content-tools.js, create editor.js and image-uploader.js following [ContentTools](http://getcontenttools.com/) instructions and add few tweaks to handle the necessary ajax requests to communicate with the backend. For demo purposes, we are using the styles from sandbox.css, so we will add this file into the css folder
 
 As we are handling ajax requests, Django asks to add the following piece of code for [Cross Site Request Forgery protection](https://docs.djangoproject.com/en/1.8/ref/csrf/).
+
 This is how our api.js file looks like
 
 ### api.js

@@ -1,11 +1,3 @@
-function getImageSize(response) {
-    coef = response.edited_width / response.size[0]
-    for(var i=0; i<response.size.length; i++) {
-        response.size[i] *= coef;
-    }
-    return response.size
-}
-
 ImageUploader = function(dialog) {
      var image, xhr, xhrComplete, xhrProgress;
 
@@ -59,7 +51,7 @@ ImageUploader = function(dialog) {
                 image = {
                     id: response.id,
                     name: response.name,
-                    size: getImageSize(response),
+                    size: response.size,
                     width: response.edited_width,
                     url: response.image
                     };
@@ -117,7 +109,7 @@ ImageUploader = function(dialog) {
                 // image to be inserted.
                 dialog.save(
                     response.image,
-                    getImageSize(response),
+                    response.size,
                     {
                         'alt': response.name,
                         'data-ce-max-width': image.size[0]
@@ -170,13 +162,8 @@ ImageUploader = function(dialog) {
                 // Unpack the response (from JSON)
                 var response = JSON.parse(ev.target.responseText);
 
-                // Store the image details
-                image.size = getImageSize(response),
-                image.url = response.image
-
                 // Populate the dialog
-                dialog.populate(image.url, image.size[0]);
-
+                dialog.populate(response.image, response.size);
               
 
             } else {

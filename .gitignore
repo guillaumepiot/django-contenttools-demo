@@ -3,3 +3,4 @@ media/images/*
 *.pyc
 docs/*
 tmp/*
+db.sqlite3

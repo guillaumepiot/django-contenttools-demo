@@ -13,7 +13,5 @@ urlpatterns = patterns('',
 	url(r'^images/add/$', upload_views.ImagesAdd.as_view(), name='images_add'),
 	url(r'^images/update/(?P<id>[-\d]+)/$', upload_views.ImagesUpdate.as_view(), name='images_update'),
 	url(r'^images/list/$', upload_views.ImagesList.as_view(), name='images_list'),
-
-	url(r'^files/add/$', upload_views.FileUploadAdd.as_view(), name='file_add'),
 )
 

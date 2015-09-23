@@ -53,7 +53,8 @@
 		            }
 		        }
 		    };
-
+		    element = document.querySelector('meta[name="page-id"]');
+		    page_id = element.getAttribute('content')
 			API.call('post', '/api/add/', payload, true, onStateChange)
 		});
 

@@ -2,20 +2,37 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="page-id" content="{{page.id}}"/>
         <title>ContentTools sandbox</title>
         <link rel="stylesheet" type="text/css" href="/static/css/sandbox.css">
         <link rel="stylesheet" type="text/css" href="/static/css/content-tools.min.css">
+        <style type="text/css">
+            .article__content{
+                margin-top: 2em;
+            }
+        </style>
     </head>
     <body>
         <article class="article">
             <section class="[ article__content ]  [ editable ]"  data-name="article">
-                {{ article | safe }}
+                {% if article %}
+                    {{ article | safe }}
+                {% else %}
+                    <img src="/static/images/pink-blue-lake-pier.jpg">
+                    <h1>The article title</h1>
+                    <p>Aenean arcu risus, molestie eget gravida vitae, malesuada et enim. Proin sagittis orci augue, et placerat mi viverra eget. Duis at mi ac augue ullamcorper volutpat sit amet porta augue. Morbi vitae mauris at mauris facilisis semper quis eget metus. Aliquam et erat et ipsum suscipit lobortis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut cursus, lorem vitae maximus finibus, urna justo condimentum turpis, in sollicitudin nibh urna posuere nibh. Nunc vehicula lobortis leo.</p>
+
+                {% endif %}
+                
             </section>
             <aside class="article__related">
                 <div class="[ article__author ]  [ author ]  [ editable ]" data-name="author">
-                    {{ author | safe }}
-                <div class="[ article__learn-more ]  [ learn-more ]  [ editable ]" data-name="learn-more">
-                    {{ learn | safe }}
+                    {% if author %}
+                        {{ author | safe }}
+                    {% else %}
+                        <p>Guillaume Piot</p>
+                        <p>Alberto Centelles</p>
+                    {% endif %}
                 </div>
             </aside>
         </article>

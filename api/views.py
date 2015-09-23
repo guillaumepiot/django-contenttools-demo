@@ -18,18 +18,14 @@ class ContentHTMLMixin(object):
     def get_serializer_class(self):
         return ContentHTMLSerializer
 
-    def get_permissions(self):
-        return [permissions.IsAuthenticated()]
-
 class ContentHTMLAdd(ContentHTMLMixin, generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser,)
 
     def perform_create(self, serializer):
+        
         regions = self.request.data.get('regions')
         images = self.request.data.get('images')
         page = self.request.data.get('page')
-
-        regions = json.dumps(regions)
 
         obj = serializer.save(
             regions = regions,
