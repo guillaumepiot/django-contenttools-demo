@@ -1,5 +1,4 @@
-media/files/*
-media/images/*
+media/
 *.pyc
 docs/*
 tmp/*

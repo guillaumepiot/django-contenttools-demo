@@ -16,7 +16,7 @@ Create a virtual environment:
 Then, install the project:
 
     git clone https://github.com/Cotidia/django-contenttools-demo.git
-    cd contenttools_django
+    cd django-contenttools-demo
     pip install -r requirements.txt
 
 Setup the project database:
